@@ -29,8 +29,6 @@ class PlaylistDownloader
 
       break
     end
-
-    exit
   end
 
   def self.download(id, out_dir)
