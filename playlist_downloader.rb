@@ -4,7 +4,11 @@ class PlaylistDownloader
   require_relative 'video_downloader'
 
   def self.inflate(string)
-    Zlib::GzipReader.new(StringIO.new(string)).read
+    begin
+      Zlib::GzipReader.new(StringIO.new(string)).read
+    rescue
+      string
+    end
   end
 
   def self.download_page(url, out_dir)
