@@ -2,11 +2,17 @@
 
 class VideoDownloader
 
-  def self.download(id, out_dir)
+  def self.download(id, out_dir, log_file = 'log')
     require 'fileutils'
     require 'open-uri'
     require 'xmlsimple'
+    require 'logger'
 
+    logger = Logger.new(log_file)
+
+    logger.info("开始下载 #{id}")
+
+    FileUtils.rm_r(out_dir)
     FileUtils.mkdir_p(out_dir)
 
     url = "http://interface.bilibili.tv/v_cdn_play?cid=#{id}"
@@ -15,18 +21,28 @@ class VideoDownloader
 
     ap = str['durl'].length
 
-    str['durl'].each do |e|
-      order = e['order'][0]
-      url = e['url'][0]
-      path = File.join(out_dir, "#{order}#{File.extname(URI.parse(url).path)}")
+    aria_file = File.join(out_dir, "urls")
 
-      command = "curl -L --retry 999 --retry-max-time 0 -C - -# \"#{url}\" -o \"#{path}\""
-
-
-      puts "正在下载 #{id} 第 #{order} / #{ap} 部分"
-      system(command)
+    File.open(aria_file, 'w') do |lf|
+      str['durl'].each do |e|
+        order = e['order'][0]
+        url = e['url'][0]
+        path = File.join(out_dir, "#{order}#{File.extname(URI.parse(url).path)}")
+        lf.puts url
+        lf.puts "  out=#{path}"
+      end
     end
 
+    command = "aria2c -i \"#{aria_file}\"  --summary-interval=1 --show-console-readout=false"
+    system(command)
+
+    if $? == 0
+      logger.info("成功下载 #{id}")
+    else
+      logger.info("未成功下载 #{id}")
+    end
+
+    $?
   end
 
 end
