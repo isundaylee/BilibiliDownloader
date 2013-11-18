@@ -20,7 +20,7 @@ class VideoDownloader
       url = e['url'][0]
       path = File.join(out_dir, "#{order}#{File.extname(URI.parse(url).path)}")
 
-      command = "curl --retry 999 --retry-max-time 0 -C - -# \"#{url}\" -o \"#{path}\""
+      command = "curl -L --retry 999 --retry-max-time 0 -C - -# \"#{url}\" -o \"#{path}\""
 
 
       puts "正在下载 #{id} 第 #{order} / #{ap} 部分"
