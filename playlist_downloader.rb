@@ -40,8 +40,6 @@ class PlaylistDownloader
 
     url = "http://www.bilibili.tv/video/av#{id}/"
 
-    puts url
-
     doc = Nokogiri::HTML(self.inflate(open(url).read))
 
     count = 0
