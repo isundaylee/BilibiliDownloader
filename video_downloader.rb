@@ -10,6 +10,13 @@ class VideoDownloader
 
     logger = Logger.new(log_file)
 
+    downloaded_file = File.join(out_dir, 'downloaded')
+
+    if File.exists?(downloaded_file)
+      logger.info("已经完成 #{id}, 跳过")
+      return 0
+    end
+
     logger.info("开始下载 #{id}")
 
     FileUtils.rm_r(out_dir)
@@ -38,6 +45,7 @@ class VideoDownloader
 
     if $? == 0
       logger.info("成功下载 #{id}")
+      FileUtils.touch(downloaded_file)
     else
       logger.info("未成功下载 #{id}")
     end
