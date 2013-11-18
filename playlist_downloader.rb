@@ -31,7 +31,7 @@ class PlaylistDownloader
     end
   end
 
-  def self.download(id, out_dir, skip = 0)
+  def self.download(id, out_dir, skip = 0, only = 0)
     require 'fileutils'
     require 'open-uri'
     require 'nokogiri'
@@ -52,6 +52,7 @@ class PlaylistDownloader
       count += 1
 
       next if count <= skip
+      next if (only != 0 && only != count)
 
       puts "%03d / %03d 正在下载 %s" % [count, all, title]
       download_page(url, File.join(out_dir, title))
