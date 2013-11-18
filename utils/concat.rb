@@ -1,3 +1,5 @@
+#/usr/bin/env ruby
+
 require 'fileutils'
 
 ffmpeg = "/Users/Sunday/Downloads/Safari\ Downloads/ffmpeg"
