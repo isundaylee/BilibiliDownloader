@@ -1,10 +1,21 @@
+GIT
+  remote: https://github.com/isundaylee/ruby-aria2.git
+  revision: 2d38fef99233d38385571d32a8a43b3e60a5399f
+  specs:
+    ruby-aria2 (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    mini_portile (0.5.2)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
     xml-simple (1.1.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  nokogiri
+  ruby-aria2!
   xml-simple
